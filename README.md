@@ -115,6 +115,12 @@ curl -X 'POST' \
 }
 ```
 
+**📸 API Interface:**
+
+Here is the live API documentation (Swagger UI) running on Google Cloud Run. It validates input types and provides a testing interface.
+
+![Live API Swagger UI](images/swagger_ui.png)
+
 ### Option B: Run Locally (Docker)
 To run the container on your own machine:
 
