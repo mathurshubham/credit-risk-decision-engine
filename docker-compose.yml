@@ -1,0 +1,16 @@
+services:
+  credit-risk-engine:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: project_alpha:v1
+    container_name: project_alpha_api
+    ports:
+      - "9696:8000"  # Maps Host Port 9696 -> Container Port 8000
+    volumes:
+      # Optional: Mount the model file so you don't have to rebuild 
+      # the image if you just retrain the model locally.
+      - ./model.joblib:/app/model.joblib
+    environment:
+      - PYTHONPATH=/app/src
+    restart: always
