@@ -4,9 +4,16 @@
 [![Python Version](https://img.shields.io/badge/Python-3.10-blue.svg)](https://www.python.org/)
 [![Package Manager](https://img.shields.io/badge/uv-Astral-purple.svg)](https://github.com/astral-sh/uv)
 [![ML Library](https://img.shields.io/badge/XGBoost-Gradient%20Boosting-red.svg)](https://xgboost.readthedocs.io/)
-[![Explainability](https://img.shields.io/badge/SHAP-Explainability-orange.svg)](https://shap.readthedocs.io/)
 [![Framework](https://img.shields.io/badge/FastAPI-High%20Performance-green.svg)](https://fastapi.tiangolo.com/)
-[![Containerization](https://img.shields.io/badge/Docker-Compose-blue.svg)](https://www.docker.com/)
+[![Deployment](https://img.shields.io/badge/Google_Cloud-Run-4285F4?logo=google-cloud&logoColor=white)](https://cloud.google.com/run)
+
+---
+
+## 🚀 Live Demo
+
+The project is deployed serverless on **Google Cloud Run**. You can test the machine learning model immediately without installing anything.
+
+**👉 [Access Live API Documentation (Swagger UI)](https://credit-risk-engine-644458477502.us-central1.run.app/docs)**
 
 ---
 
@@ -40,6 +47,7 @@ This project adopts a modern "Senior Engineer" stack, moving away from legacy to
     *   **SHAP:** For model interpretability.
 *   **API Framework:** **FastAPI** (Async, Type-safe inputs via Pydantic).
 *   **Containerization:** Multi-stage **Docker** builds and **Docker Compose**.
+*   **Cloud:** **Google Cloud Run** (Serverless container deployment).
 
 ---
 
@@ -59,52 +67,16 @@ We enriched the dataset with domain-specific ratios:
 
 ---
 
-## 4. How to Run Locally
+## 4. API Usage & Testing
 
-You can run this project using **Docker Compose** (Recommended) or the **`uv`** package manager.
+You can test the API against the live cloud deployment or run it locally.
 
-### Option A: Docker Compose (Easiest)
-This spins up the API in a containerized environment identical to production.
-
-```bash
-# 1. Build and Start the Service
-docker compose up --build
-
-# The API is now live at http://localhost:9696
-```
-
-### Option B: Local Development with `uv`
-If you want to train the model or edit code:
-
-```bash
-# 1. Install uv (if not installed)
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# 2. Sync Dependencies (Creates a virtualenv exactly matching the lock file)
-uv sync
-
-# 3. Train the Model (Reproducible Pipeline)
-uv run python -m project_alpha.train
-
-# 4. Start the API
-uv run uvicorn project_alpha.app:app --reload
-```
-
----
-
-## 5. API Usage & Testing
-
-Once the service is running (on port `9696` via Docker), you can test it.
-
-### 1. Interactive Docs (Swagger UI)
-Visit: **[http://localhost:9696/docs](http://localhost:9696/docs)**
-
-### 2. Test via cURL
-Copy the command below to test a **High Risk** scenario (Low Income, High Debt):
+### Option A: Test Live (Cloud)
+Copy and paste this command into your terminal to hit the production endpoint:
 
 ```bash
 curl -X 'POST' \
-  'http://127.0.0.1:9696/predict' \
+  'https://credit-risk-engine-644458477502.us-central1.run.app/predict' \
   -H 'Content-Type: application/json' \
   -d '{
   "Age": 28,
@@ -143,6 +115,36 @@ curl -X 'POST' \
 }
 ```
 
+### Option B: Run Locally (Docker)
+To run the container on your own machine:
+
+```bash
+# 1. Build and Start the Service
+docker compose up --build
+
+# 2. Access the API at http://localhost:9696/docs
+```
+
+---
+
+## 5. Development Setup
+
+If you wish to contribute or modify the code, we use `uv` for lightning-fast dependency management.
+
+```bash
+# 1. Install uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# 2. Sync Dependencies (Creates a virtualenv exactly matching the lock file)
+uv sync
+
+# 3. Train the Model (Reproducible Pipeline)
+uv run python -m project_alpha.train
+
+# 4. Start the API in Dev Mode
+uv run uvicorn project_alpha.app:app --reload
+```
+
 ---
 
 ## 6. Project Structure
@@ -169,9 +171,9 @@ project_alpha/
 ## 7. Course Deliverables Checklist
 
 -   [x] **`README.md`:** This file.
--   [x] **Data:** `data/raw_data.csv` included (Git LFS or small enough sample).
+-   [x] **Data:** `data/raw_data.csv` included.
 -   [x] **Notebooks:** EDA (`01`) and Model Training/SHAP (`02`).
 -   [x] **Scripts:** `train.py` (pipeline training) and `app.py` (inference).
 -   [x] **Dependencies:** Managed via `pyproject.toml` and `uv.lock`.
 -   [x] **Containerization:** `Dockerfile` and `docker-compose.yml`.
--   [x] **Cloud/Local Deployment:** Instructions provided for local Docker run (reproducible).
+-   [x] **Cloud Deployment:** Live on Google Cloud Run with public URL provided.
